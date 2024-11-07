@@ -11,15 +11,12 @@ function convertToObject(sourceString) {
     .map((declaration) => declaration.trim())
     .filter((declaration) => declaration)
     .reduce((sourceObject, declaration) => {
-      const colonIndex = declaration.indexOf(':');
+      const [property, ...valueParts] = declaration.split(':');
 
-      if (colonIndex !== -1) {
-        const property = declaration.slice(0, colonIndex).trim();
-        const value = declaration.slice(colonIndex + 1).trim();
+      if (property && valueParts.length) {
+        const value = valueParts.join(':').trim();
 
-        if (property && value) {
-          sourceObject[property] = value;
-        }
+        sourceObject[property.trim()] = value;
       }
 
       return sourceObject;
